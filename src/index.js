@@ -52,13 +52,13 @@ function removeProduct(event) {
   RowToRemove.remove();
 
   let total = 0;
-  const products = document.querySelectorAll('.product');
+  const products = document.querySelectorAll('.product')
   products.forEach((product) => {
     const subtotal = updateSubtotal(product)
     total += subtotal
   })
 
-  const totalProducts = document.querySelector('.total-value');
+  const totalProducts = document.querySelector('.total-value')
   totalProducts.innerHTML = total;
 }
 
@@ -72,11 +72,36 @@ removeButtons.forEach((button) => {
 
 function createProduct() {
   //... your code goes here
+  const newName = document.querySelector('.name input').value
+  const newPrice = parseFloat(document.querySelector('.price input').value)
+  const newRow = document.createElement('tr')
+  newRow.classList.add('product')
+
+  newRow.innerHTML = `
+    <td class="name">
+      <span>${newName}</span>
+    </td>
+    <td class="price">$<span>${newPrice.toFixed(2)}</span></td>
+    <td class="quantity">
+      <input type="number" min="0" value="0" placeholder="Quantity" />
+    </td>
+    <td class="subtotal">$<span>0</span></td>
+    <td class="action">
+      <button class="btn btn-remove">Remove</button>
+    </td>
+  `
+  newRow.querySelector('.btn-remove').addEventListener('click', removeProduct)
+
+  const table = document.querySelector('#cart tbody')
+  table.appendChild(newRow)
 }
 
 window.addEventListener('load', () => {
-  const calculatePricesBtn = document.getElementById('calculate');
-  calculatePricesBtn.addEventListener('click', calculateAll);
+  const calculatePricesBtn = document.getElementById('calculate')
+  calculatePricesBtn.addEventListener('click', calculateAll)
 
   //... your code goes here
+  const createProductBtn = document.getElementById('create')
+  createProductBtn.addEventListener('click', createProduct)
+  
 });
